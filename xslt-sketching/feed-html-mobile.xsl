@@ -48,14 +48,8 @@
     </div>
   </xsl:template>
 
-  <xsl:template match="entry[position() mod 2 = 1]">
-    <div class="row">
-      <xsl:apply-templates mode="proc" select=".|following-sibling::entry[not(position() > 1)]" />
-    </div>
-  </xsl:template>
-
-  <xsl:template match="entry" mode="proc">
-      <div class="col {image/@rotation}">
+  <xsl:template match="entry">
+      <div class="col mobile">
         <a href="{url}">
         <img src="{image}">Test</img>
         <div class="textbox">
@@ -64,8 +58,6 @@
         </a>
       </div>
   </xsl:template>
-
-  <xsl:template match="entry[not(position() mod 2 = 1)]" />
 
   <xsl:template match="title">
     <xsl:apply-templates />

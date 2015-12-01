@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="feed-html.xsl"?>
+<!-- <?xml-stylesheet type="text/xsl" href="feed-html-mobile.xsl"?> -->
 <!DOCTYPE page [
   <!ENTITY % page SYSTEM "http://xml.csc.kth.se/~michak/secret/test/page.dtd">
   %page;
