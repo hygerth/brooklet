@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="feed-html.xsl"?>
+<!DOCTYPE page [
+  <!ENTITY % page SYSTEM "http://xml.csc.kth.se/~michak/secret/test/page.dtd">
+  %page;
+  <!ENTITY % content SYSTEM "http://xml.csc.kth.se/~michak/secret/test/content.dtd">
+  %content;
+  <!ENTITY % navigation SYSTEM "http://xml.csc.kth.se/~michak/secret/test/navigation.dtd">
+  %navigation;
+]>
+
+<page>
+    <navigation>
+        <navigationitem title="Home" url="/"/>
+        <navigationitem title="Latest" url="/user/latest"/>
+        <navigationitem title="Subscriptions">
+            <sublist>
+                <item>
+                    <title>The New York Times</title>
+                    <url>/user/subscription/newyorktimes</url>
+                    <icon></icon>
+                </item>
+                <item>
+                    <title>The Verge</title>
+                    <url>/user/subscription/theverge</url>
+                    <icon></icon>
+                </item>
+                <item>
+                    <title>Ars Technica</title>
+                    <url>/user/subscription/arstechnica</url>
+                    <icon></icon>
+                </item>
+            </sublist>
+        </navigationitem>
+        <navigationitem title="Settings" url="/user/settings"/>
+    </navigation>
+
+    <content title="Ars Technica">
+        <entry>
+            <title>Ubuntu 15.10 review: Wily Werewolf leaves scary experimentation for next year</title>
+            <url>http://arstechnica.com/information-technology/2015/11/ubuntu-15-10-review-wily-werewolf-leaves-scary-experimentation-for-next-year/</url>
+            <published>Thu, 19 Nov 2015 13:00:49 +0000</published>
+            <summary>Fall is usually Canonical's time for change, but 15.10 is merely the calm before Unity 8.</summary>
+            <author>
+                <name>Scott Gilbertson</name>
+                <url>http://arstechnica.com/</url>
+            </author>
+            <image rotation="horizontal">http://cdn.arstechnica.net/wp-content/uploads/2015/11/werewolf-640x427.jpg</image>
+        </entry>
+        <entry>
+            <title>Star Wars Battlefront suffers immortal player glitch</title>
+            <url>http://arstechnica.com/gaming/2015/11/star-wars-battlefront-suffers-immortal-player-glitch/</url>
+            <published>Thu, 19 Nov 2015 13:45:29 +0000</published>
+            <summary>After seemingly smooth launch, EA and DICE have another game-breaking bug to fix.</summary>
+            <author>
+                <name>Mark Walton</name>
+                <url>http://arstechnica.com/</url>
+            </author>
+            <image rotation="horizontal">http://cdn.arstechnica.net/wp-content/uploads/2015/06/ea-blog-star-wars-battlefront-3-640x360.jpg</image>
+        </entry>
+        <entry>
+            <title>SJust Cause 3 suffering bugs, glitches, and FPS drops on consoles and PCs</title>
+            <url>http://arstechnica.com/gaming/2015/11/star-wars-battlefront-suffers-immortal-player-glitch/</url>
+            <published>Thu, 19 Nov 2015 13:45:29 +0000</published>
+            <summary>After seemingly smooth launch, EA and DICE have another game-breaking bug to fix.</summary>
+            <author>
+                <name>Mark Walton</name>
+                <url>http://arstechnica.com/</url>
+            </author>
+            <image rotation="horizontal">http://cdn.arstechnica.net/wp-content/uploads/2015/12/225540_screenshots_2015-12-01_00003-640x360.jpg</image>
+        </entry>
+        <entry>
+            <title>As NASA discards reusable engines, Blue Origin and SpaceX push new frontiers</title>
+            <url>http://arstechnica.com/gaming/2015/11/star-wars-battlefront-suffers-immortal-player-glitch/</url>
+            <published>Thu, 19 Nov 2015 13:45:29 +0000</published>
+            <summary>After seemingly smooth launch, EA and DICE have another game-breaking bug to fix.</summary>
+            <author>
+                <name>Mark Walton</name>
+                <url>http://arstechnica.com/</url>
+            </author>
+            <image rotation="portrait">http://cdn.arstechnica.net/wp-content/uploads/2015/11/sls-70mt-dac3-orange-launch-rs25_0-640x330.jpg</image>
+        </entry>
+    </content>
+</page>
