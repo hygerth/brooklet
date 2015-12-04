@@ -3,7 +3,7 @@ package main
 import (
     "flag"
     "fmt"
-    //"github.com/hygerth/brooklet"
+    "github.com/hygerth/brooklet"
     "os"
 )
 
@@ -12,7 +12,7 @@ var exit = os.Exit
 var (
     usage      = "Usage: brooklet [OPTIONS]"
     options    = "Options:\n-h, -help \t Print this help text and exit \n-v, -version \t Print program version and exit"
-    version    = "2015.11.06"
+    version    = "2015.12.04"
     help       = fmt.Sprintf("%s\nVersion: %s\n%s", usage, version, options)
     cliVersion = flag.Bool("version", false, version)
     cliHelp    = flag.Bool("help", false, help)
@@ -36,8 +36,7 @@ func main() {
         exit(0)
         return
     }
-    //brooklet.Start()
-    fmt.Println("Test run")
+    brooklet.Start()
     exit(0)
     return
 }
