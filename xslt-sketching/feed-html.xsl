@@ -26,26 +26,26 @@
   </xsl:template>
 
   <xsl:template match="navigation">
-    <div class="drop">
-      <ul class="drop_menu">
-        <xsl:for-each select="navigationitem">
-            <li>
-              <a href="{@url}">
-                <xsl:value-of select="@title" />
-              </a>
-              <ul>
-                <xsl:for-each select="sublist/item">
-                  <li>
-                    <a href="{url}">
-                      <xsl:apply-templates select="title" />
-                    </a>
-                  </li>
-                </xsl:for-each>
-              </ul>
-            </li>
-        </xsl:for-each>
-      </ul>
-    </div>
+    <label for="show-menu" class="show-menu">Show Menu</label>
+    <input type="checkbox" id="show-menu" role="button"/>
+    <ul class="menu">
+      <xsl:for-each select="navigationitem">
+        <li>
+          <a href="{@url}">
+            <xsl:value-of select="@title" />
+          </a>
+          <ul class="hidden">
+            <xsl:for-each select="sublist/item">
+              <li>
+                <a href="{url}">
+                  <xsl:apply-templates select="title" />
+                </a>
+              </li>
+            </xsl:for-each>
+          </ul>
+        </li>
+      </xsl:for-each>
+    </ul>
   </xsl:template>
 
   <xsl:template match="entry[position() mod 2 = 1]">
