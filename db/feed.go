@@ -29,6 +29,17 @@ func AddFeed(url string) (structure.Feed, error) {
     return feed, err
 }
 
+func RemoveFeed(url string) error {
+    session, err := Connect()
+    defer session.Close()
+    if err != nil {
+        return err
+    }
+    c := session.DB(db).C("feeds")
+    err = c.Remove(bson.M{"url": url})
+    return err
+}
+
 func GetFeedByURL(url string) (structure.Feed, error) {
     var feed structure.Feed
     session, err := Connect()

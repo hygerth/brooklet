@@ -140,3 +140,21 @@ func randStringBytesMaskImprSrc(n int, src rand.Source) string {
 
     return string(b)
 }
+
+func IsMobile(header http.Header) bool {
+    var ua string
+    uagets := []string{"user-agent", "User-Agent", "USER-AGENT"}
+    for _, uaget := range uagets {
+        if header.Get(uaget) != "" {
+            ua = header.Get(uaget)
+            break
+        }
+    }
+    if ua == "" {
+        return false
+    }
+    if strings.Contains(strings.ToLower(ua), "mobile") && !strings.Contains(strings.ToLower(ua), "ipad") {
+        return true
+    }
+    return false
+}

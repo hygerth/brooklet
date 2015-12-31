@@ -12,7 +12,7 @@ type AtomFeed struct {
     Subtitle string    `xml:"subtitle"`
     ID       string    `xml:"id"`
     Updated  time.Time `xml:"updated"`
-    Link     []Link      `xml:"link"`
+    Link     []Link    `xml:"link"`
     Author   Author    `xml:"author"`
     Entries  []Entry   `xml:"entry"`
 }
@@ -95,8 +95,8 @@ func (rssfeed *RSSFeed) ConvertToAtomFeed() (AtomFeed, error) {
     var atomfeed AtomFeed
     t, _ := utils.ParseTimeString(rssfeed.LastBuildDate)
     atomfeed.Title = rssfeed.Title
-    atomfeed.Link[0].Href = rssfeed.Link
-    atomfeed.Link[0].Rel = "alternate"
+    link := Link{Href: rssfeed.Link, Rel: "alternate"}
+    atomfeed.Link = append(atomfeed.Link, link)
     atomfeed.Subtitle = rssfeed.Description
     atomfeed.Updated = t
     var entries []Entry

@@ -12,7 +12,7 @@ var exit = os.Exit
 var (
     usage      = "Usage: brooklet [OPTIONS]"
     options    = "Options:\n-h, -help \t Print this help text and exit \n-v, -version \t Print program version and exit"
-    version    = "2015.12.04"
+    version    = "2015.12.31"
     help       = fmt.Sprintf("%s\nVersion: %s\n%s", usage, version, options)
     cliVersion = flag.Bool("version", false, version)
     cliHelp    = flag.Bool("help", false, help)

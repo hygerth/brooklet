@@ -10,7 +10,7 @@ import (
 
 // Start starts the background update schedule of Skywalker
 func Start() {
-    Sync()
+    //Sync()
     go func() {
         timer := time.Tick(10 * time.Minute)
         for _ = range timer {

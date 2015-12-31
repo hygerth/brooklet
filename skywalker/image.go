@@ -23,7 +23,7 @@ func SyncImage(url string) (string, bool, error) {
     if len(url) == 0 {
         return "", false, nil
     }
-    sizes := []string{"128", "512"}
+    sizes := []string{"512", "1024"}
     path, err := utils.GetPath()
     if err != nil {
         return "", false, err
@@ -39,7 +39,7 @@ func SyncImage(url string) (string, bool, error) {
     height := img.Dy()
     width := img.Dx()
     portrait := false
-    if height > width {
+    if height >= width {
         portrait = true
     }
     uniquefilename, err := utils.GenerateUniqueFilename(path)

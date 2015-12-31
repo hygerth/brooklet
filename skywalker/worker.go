@@ -36,12 +36,12 @@ func updateWorker(in <-chan structure.Feed, wg *sync.WaitGroup) {
     go func() {
         defer wg.Done()
         for feed := range in {
-            updateFeed(feed)
+            UpdateFeed(feed)
         }
     }()
 }
 
-func updateFeed(feed structure.Feed) {
+func UpdateFeed(feed structure.Feed) {
     update, err := feedparser.ParseURL(feed.URL)
     utils.Checkerr(err)
     var link string
@@ -111,7 +111,10 @@ func convertAtomEntryToDBEntry(entry feedparser.Entry) structure.Entry {
     filename, isPortrait, err := SyncImage(meta.Image)
     utils.Checkerr(err)
     newentry.Image.BaseFilename = filename
-    newentry.Image.IsPortrait = isPortrait
+    switch isPortrait {
+    case true: newentry.Image.Rotation = "portrait"
+    default: newentry.Image.Rotation = "landscape"
+    }
     return newentry
 }
 

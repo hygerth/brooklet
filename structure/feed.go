@@ -32,3 +32,12 @@ func GenerateFeedName(feedurl string) string {
     s = strings.ToLower(s)
     return s
 }
+
+func ExtractEntriesFromFeeds(feeds ...Feed) []Entry {
+    var entries []Entry
+    for _, feed := range feeds {
+        entries = append(entries, feed.Entries...)
+    }
+    entries = SortEntriesByDate(entries)
+    return entries
+}

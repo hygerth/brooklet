@@ -7,7 +7,7 @@
     <html>
       <head>
         <title>Brooklet</title>
-        <link href="style.css" rel="stylesheet" type="text/css" />
+        <link href="/static/css/screen.css" rel="stylesheet" type="text/css" />
       </head>
 
       <body>
@@ -26,7 +26,6 @@
   </xsl:template>
 
   <xsl:template match="navigation">
-    <div class="mobile">
     <label for="show-menu" class="show-menu">Show Menu</label>
     <input type="checkbox" id="show-menu" role="button"/>
     <ul class="menu">
@@ -47,21 +46,26 @@
         </li>
       </xsl:for-each>
     </ul>
+  </xsl:template>
+
+  <xsl:template match="entry[position() mod 2 = 1]">
+    <div class="row">
+      <xsl:apply-templates mode="proc" select=".|following-sibling::entry[not(position() > 1)]" />
     </div>
   </xsl:template>
 
-  <xsl:template match="entry">
-    <div class="row">
-      <div class="col mobile">
+  <xsl:template match="entry" mode="proc">
+      <div class="col {image/@rotation}">
         <a href="{url}">
-        <img src="{image}">Test</img>
+        <img src="/images/{image/@src}-1024.png">Test</img>
         <div class="textbox">
           <h1><xsl:apply-templates select="title" /></h1>
         </div>
         </a>
       </div>
-    </div>
   </xsl:template>
+
+  <xsl:template match="entry[not(position() mod 2 = 1)]" />
 
   <xsl:template match="title">
     <xsl:apply-templates />

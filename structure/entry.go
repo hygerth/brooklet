@@ -19,7 +19,7 @@ type Entry struct {
 
 type Image struct {
     BaseFilename string `bson:"basefilename" xml:"src,attr"`
-    IsPortrait bool `vson:"isportrait" xml:"portrait,attr"`
+    Rotation string `bson:"rotation" xml:"rotation,attr"`
 }
 
 type Entries []Entry
