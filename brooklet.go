@@ -20,6 +20,7 @@ func Start() {
     r.HandleFunc("/remove/feed", removeFeedHandler).Methods("POST")
     r.HandleFunc("/add/filter", addFilterHandler).Methods("POST")
     r.HandleFunc("/remove/filter", removeFilterHandler).Methods("POST")
+    r.HandleFunc("/article/{id}", articleHandler).Methods("GET")
     r.HandleFunc("/feed/{name}", feedHandler).Methods("GET")
     r.HandleFunc("/api/latest", apiLatestHandler).Methods("GET")
     r.HandleFunc("/api/feed/{name}", apiFeedHandler).Methods("GET")

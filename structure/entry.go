@@ -14,12 +14,9 @@ type Entry struct {
     PermaLink string `bson:"permalink" xml:"url"`
     Author string `bson:"author" xml:"author"`
     Twitter string `bson:"twitter" xml:"twitter"`
-    Image Image `bson:"image" xml:"image"`
-}
-
-type Image struct {
-    BaseFilename string `bson:"basefilename" xml:"src,attr"`
-    Rotation string `bson:"rotation" xml:"rotation,attr"`
+    HasImage bool `bson:"hasimage" xml:"hasimage"`
+    ImageRotation string `bson:"imagerotation" xml:"imagerotation"`
+    ArticleID string `bson:"articleid" xml:"id"`
 }
 
 type Entries []Entry

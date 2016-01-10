@@ -100,6 +100,12 @@ func TrimSpaces(s string) string {
     return re.ReplaceAllString(s, " ")
 }
 
+func GenerateUniqueID() string {
+    var src = rand.NewSource(time.Now().UnixNano())
+    id := randStringBytesMaskImprSrc(16, src)
+    return id
+}
+
 func GenerateUniqueFilename(path string) (string, error) {
     var src = rand.NewSource(time.Now().UnixNano())
     filename := randStringBytesMaskImprSrc(16, src)

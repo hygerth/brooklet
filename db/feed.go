@@ -173,6 +173,45 @@ func GetFeedsInURLList(urls []string) ([]structure.Feed, error) {
     return feeds, err
 }
 
+func GetEntryByArticleID(id string) (structure.Entry, error) {
+    var entry structure.Entry
+    var feed structure.Feed
+    session, err := Connect()
+    defer session.Close()
+    if err != nil {
+        return entry, err
+    }
+    c := session.DB(db).C("feeds")
+    err = c.Find(bson.M{"entries.articleid": id}).One(&feed)
+    if err != nil {
+        return entry, err
+    }
+    for _, e := range feed.Entries {
+        if e.ArticleID == id {
+            entry = e
+            break
+        }
+    }
+    return entry, err
+}
+
+func HasEntryByArticleID(id string) (bool, error) {
+    session, err := Connect()
+    defer session.Close()
+    if err != nil {
+        return false, err
+    }
+    c := session.DB(db).C("feeds")
+    count, err := c.Find(bson.M{"entries.articleid": id}).Count()
+    if err != nil {
+        return false, err
+    }
+    if count > 0 {
+        return true, nil
+    }
+    return false, nil
+}
+
 func sortEntriesInFeeds(feeds []structure.Feed) []structure.Feed {
     for i, feed := range feeds {
         feeds[i] = sortEntriesInFeed(feed)

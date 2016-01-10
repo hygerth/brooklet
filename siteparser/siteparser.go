@@ -25,10 +25,10 @@ type Meta struct {
 }
 
 var positivecandidatesregex = regexp.MustCompile(`and|article|body|column|main`)
-var negativecandidatesregex = regexp.MustCompile(`combx|modal|lightbox|comment|disqus|foot|head|menu|meta|nav|rss|script|shoutbox|sidebar|sponsor|social|teaserlist|time|tweet|twitter`)
+var negativecandidatesregex = regexp.MustCompile(`combx|modal|lightbox|comment|disqus|foot|footer|head|header|menu|meta|nav|rss|script|shoutbox|sidebar|sponsor|social|teaserlist|time|tweet|twitter`)
 
 var positiveregex = regexp.MustCompile(`article|body|content|entry|hentry|page|pagination|post|text`)
-var negativeregex = regexp.MustCompile(`banner|combx|comment|comments|contact|foot|footer|footnote|link|media|meta|promo|related|scroll|share|shoutbox|sidebar|sponsor|utility|tags|widget`)
+var negativeregex = regexp.MustCompile(`ad|banner|brand|combx|comment|comments|contact|foot|footer|footnote|left|link|media|meta|navigation|promo|related|right|scroll|share|shoutbox|sidebar|sponsor|utility|tags|widget`)
 
 var containerregrex = regexp.MustCompile(`article|aside|div|section`)
 
@@ -230,7 +230,7 @@ func removeNegativeAttributeMatches(n *html.Node) *html.Node {
                     penalty := 0
                     for _, value := range values {
                         if negativeregex.MatchString(value) {
-                            penalty++
+                            penalty = penalty + 4
                         }
                     }
                     if penalty > 0 {

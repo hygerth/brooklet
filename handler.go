@@ -8,6 +8,7 @@ import (
     "github.com/hygerth/brooklet/utils"
     "encoding/xml"
     "fmt"
+    "html/template"
     "net/http"
     "strings"
     "time"
@@ -32,11 +33,17 @@ type Page struct {
 type Content struct {
     Title string `xml:"title,attr"`
     Entries []structure.Entry `xml:"entry"`
+    Article structure.Entry `xml:"article"`
 }
 
 type Subscription struct {
     Title string `xml:"title"`
     URL string `xml:"url"`
+}
+
+type Article struct {
+    Article interface{}
+    Content interface{}
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
@@ -127,6 +134,17 @@ func removeFilterHandler(w http.ResponseWriter, r *http.Request) {
     err = db.RemoveFilter(filter)
     utils.Checkerr(err)
     http.Redirect(w, r, "/settings", http.StatusFound)
+}
+
+func articleHandler(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    id := vars["id"]
+    article, _ := db.GetEntryByArticleID(id)
+    c := template.HTML(article.Content)
+    p := &Article{Article: article, Content: c}
+    path, _ := utils.GetPath()
+    t := template.Must(template.New("article.tmpl").ParseFiles(path + "/layouts/article.tmpl"))
+    t.Execute(w, p)
 }
 
 func feedHandler(w http.ResponseWriter, r *http.Request) {

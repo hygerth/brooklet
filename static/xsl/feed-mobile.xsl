@@ -56,8 +56,8 @@
         <a href="{url}">
         
         <xsl:choose>
-          <xsl:when test="string-length(image/@src) > 0">
-            <img src="/images/{image/@src}-512.png">Test</img>
+          <xsl:when test="hasimage">
+            <img src="/images/{id}-512.png">Test</img>
           </xsl:when>
           <xsl:otherwise>
             <xsl:variable name="varcolor"><xsl:value-of select="string-length(title) mod 9 + 1" /></xsl:variable>

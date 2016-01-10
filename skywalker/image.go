@@ -18,23 +18,25 @@ const useragent string = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleW
 
 var filenameregex = regexp.MustCompile(`[^/]/([^/]+\.[a-z]{2,4})`)
 
-// SyncImage, return base-filename, IsPortrait and error
-func SyncImage(url string) (string, bool, error) {
+// SyncImage, returns hasImage, isPortrait and error
+func SyncImage(url string, uniquefilename string) (bool, bool, error) {
+    hasimage := false
     if len(url) == 0 {
-        return "", true, nil
+        return hasimage, true, nil
     }
     sizes := []string{"512", "1024"}
     path, err := utils.GetPath()
     if err != nil {
-        return "", true, err
+        return hasimage, true, err
     }
     path += "/images/"
     os.Mkdir(path, os.ModePerm)
     filename := getFilename(url)
     picture, err := downloadPicture(path, filename, url)
     if err != nil {
-        return "", true, err
+        return hasimage, true, err
     }
+    hasimage = true
     img := picture.Bounds()
     height := img.Dy()
     width := img.Dx()
@@ -42,21 +44,17 @@ func SyncImage(url string) (string, bool, error) {
     if height < width {
         portrait = false
     }
-    uniquefilename, err := utils.GenerateUniqueFilename(path)
-    if err != nil {
-        return filename, portrait, err
-    }
     for _, size := range sizes {
         err = resizeImage(path, filename, uniquefilename, size)
         if err != nil {
-            return uniquefilename, portrait, err
+            return hasimage, portrait, err
         }
     }
     err = os.Remove(path + filename)
     if err != nil {
-        return uniquefilename, portrait, err
+        return hasimage, portrait, err
     }
-    return uniquefilename, portrait, nil
+    return hasimage, portrait, nil
 }
 
 func getFilename(url string) string {

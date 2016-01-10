@@ -112,14 +112,24 @@ func convertAtomEntryToDBEntry(entry feedparser.Entry) structure.Entry {
     }
     utils.Checkerr(err)
     newentry.Twitter = meta.TwitterCreator
-    filename, isPortrait, err := SyncImage(meta.Image)
+    newentry.ArticleID = createNewID()
+    hasImage, isPortrait, err := SyncImage(meta.Image, newentry.ArticleID)
     utils.Checkerr(err)
-    newentry.Image.BaseFilename = filename
+    newentry.HasImage = hasImage
     switch isPortrait {
-    case false: newentry.Image.Rotation = "landscape"
-    default: newentry.Image.Rotation = "portrait"
+    case false: newentry.ImageRotation = "landscape"
+    default: newentry.ImageRotation = "portrait"
     }
     return newentry
+}
+
+func createNewID() string {
+    id := utils.GenerateUniqueID()
+    has, err := db.HasEntryByArticleID(id)
+    if err != nil || has {
+        return createNewID()
+    }
+    return id
 }
 
 func calculateChangeFrequency(occasions []time.Time) float64 {
