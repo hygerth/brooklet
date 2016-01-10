@@ -32,7 +32,27 @@
                         <li>
                             <form action="/add/feed" method="POST">
                                 <input type="text" name="feed" placeholder="url"/>
-                                <input type="submit"/>
+                                <input type="submit" />
+                            </form>
+                        </li>
+                    </ul>
+                    <hr/>
+                    <ul>
+                        <xsl:for-each select="filter">
+                            <li>
+                                <h2>
+                                    <xsl:value-of select="." />
+                                </h2>
+                                <form action="/remove/filter" method="POST">
+                                    <input type="hidden" name="filter" value="{.}" />
+                                    <input type="submit" />
+                                </form>
+                            </li>
+                        </xsl:for-each>
+                        <li>
+                            <form action="/add/filter" method="POST">
+                                <input type="text" name="filter" placeholder="keyword"/>
+                                <input type="submit" />
                             </form>
                         </li>
                     </ul>

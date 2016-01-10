@@ -26,6 +26,7 @@ type Page struct {
     Navigation Navigation `xml:"navigation"`
     Content Content `xml:"content"`
     Subscriptions []Subscription `xml:"subscription"`
+    Filter []string `xml:"filter"`
 }
 
 type Content struct {
@@ -59,6 +60,8 @@ func latestHandler(w http.ResponseWriter, r *http.Request) {
     p.Navigation = nav
     feeds, _ := db.GetAllFeeds()
     entries := structure.ExtractEntriesFromFeeds(feeds...)
+    filter, _ := db.GetFilter()
+    entries = structure.FilterEntries(entries, filter)
     content := Content{Title: "Latest", Entries: entries}
     p.Content = content
     enc.Encode(p)
@@ -80,6 +83,8 @@ func buildBasicPage() Page {
     p.Navigation = nav
     subscriptions := buildSubscriptions()
     p.Subscriptions = subscriptions
+    filter := buildFilter()
+    p.Filter = filter
     return p
 }
 
@@ -104,6 +109,23 @@ func removeFeedHandler(w http.ResponseWriter, r *http.Request) {
     http.Redirect(w, r, "/settings", http.StatusFound)
 }
 
+func addFilterHandler(w http.ResponseWriter, r *http.Request) {
+    err := r.ParseForm()
+    utils.Checkerr(err)
+    filter := r.Form["filter"][0]
+    db.AddFilter(filter)
+    http.Redirect(w, r, "/settings", http.StatusFound)
+}
+
+func removeFilterHandler(w http.ResponseWriter, r *http.Request) {
+    err := r.ParseForm()
+    utils.Checkerr(err)
+    filter := r.Form["filter"][0]
+    err = db.RemoveFilter(filter)
+    utils.Checkerr(err)
+    http.Redirect(w, r, "/settings", http.StatusFound)
+}
+
 func feedHandler(w http.ResponseWriter, r *http.Request) {
     ismobile := utils.IsMobile(r.Header)
     xmlheader, err := buildXMLHeader("feed", ismobile)
@@ -116,7 +138,10 @@ func feedHandler(w http.ResponseWriter, r *http.Request) {
     nav := buildNavigation()
     p.Navigation = nav
     feed, _ := db.GetFeedByName(name)
-    content := Content{Title: feed.Title, Entries: structure.ExtractEntriesFromFeeds(feed)}
+    entries := structure.ExtractEntriesFromFeeds(feed)
+    filter, _ := db.GetFilter()
+    entries = structure.FilterEntries(entries, filter)
+    content := Content{Title: feed.Title, Entries: entries}
     p.Content = content
     enc.Encode(p)
 }
@@ -129,6 +154,15 @@ func buildSubscriptions() []Subscription {
         subscriptions = append(subscriptions, subscription)
     }
     return subscriptions
+}
+
+func buildFilter() []string {
+    var filter []string
+    allfilters, _ := db.GetFilter()
+    for _, f := range allfilters {
+        filter = append(filter, f.Filter)
+    }
+    return filter
 }
 
 func buildXMLHeader(view string, isMobile bool) (string, error) {
