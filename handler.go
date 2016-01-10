@@ -16,9 +16,9 @@ import (
 const xslLocation = "/static/xsl/"
 
 var viewheaders = map[string]string{
-    "feed": "<?xml version=\"1.0\"?><?xml-stylesheet type=\"text/xsl\" href=\"_xslfile_\"?><!DOCTYPE page [<!ENTITY % page SYSTEM \"/static/dtd/page.dtd\">%page;<!ENTITY % content SYSTEM \"/static/dtd/content.dtd\">%content;<!ENTITY % navigation SYSTEM \"/static/dtd/navigation.dtd\">%navigation;]>",
-    "home": "<?xml version=\"1.0\"?><?xml-stylesheet type=\"text/xsl\" href=\"_xslfile_\"?>",
-    "settings": "<?xml version=\"1.0\"?><?xml-stylesheet type=\"text/xsl\" href=\"_xslfile_\"?>",
+    "feed": "<?xml-stylesheet type=\"text/xsl\" href=\"_xslfile_\"?><!DOCTYPE page [<!ENTITY % page SYSTEM \"/static/dtd/page.dtd\">%page;<!ENTITY % content SYSTEM \"/static/dtd/content.dtd\">%content;<!ENTITY % navigation SYSTEM \"/static/dtd/navigation.dtd\">%navigation;]>",
+    "home": "<?xml-stylesheet type=\"text/xsl\" href=\"_xslfile_\"?>",
+    "settings": "<?xml-stylesheet type=\"text/xsl\" href=\"_xslfile_\"?>",
 }
 
 type Page struct {
@@ -40,6 +40,7 @@ type Subscription struct {
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprint(w, xml.Header)
     ismobile := utils.IsMobile(r.Header)
     xmlheader, err := buildXMLHeader("home", ismobile)
     utils.Checkerr(err)
@@ -50,6 +51,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func latestHandler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprint(w, xml.Header)
     ismobile := utils.IsMobile(r.Header)
     xmlheader, err := buildXMLHeader("feed", ismobile)
     utils.Checkerr(err)
@@ -68,6 +70,7 @@ func latestHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func settingsHandler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprint(w, xml.Header)
     ismobile := utils.IsMobile(r.Header)
     xmlheader, err := buildXMLHeader("settings", ismobile)
     utils.Checkerr(err)
@@ -127,6 +130,7 @@ func removeFilterHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func feedHandler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprint(w, xml.Header)
     ismobile := utils.IsMobile(r.Header)
     xmlheader, err := buildXMLHeader("feed", ismobile)
     utils.Checkerr(err)
