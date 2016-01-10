@@ -21,26 +21,26 @@ var filenameregex = regexp.MustCompile(`[^/]/([^/]+\.[a-z]{2,4})`)
 // SyncImage, return base-filename, IsPortrait and error
 func SyncImage(url string) (string, bool, error) {
     if len(url) == 0 {
-        return "", false, nil
+        return "", true, nil
     }
     sizes := []string{"512", "1024"}
     path, err := utils.GetPath()
     if err != nil {
-        return "", false, err
+        return "", true, err
     }
     path += "/images/"
     os.Mkdir(path, os.ModePerm)
     filename := getFilename(url)
     picture, err := downloadPicture(path, filename, url)
     if err != nil {
-        return "", false, err
+        return "", true, err
     }
     img := picture.Bounds()
     height := img.Dy()
     width := img.Dx()
-    portrait := false
-    if height >= width {
-        portrait = true
+    portrait := true
+    if height < width {
+        portrait = false
     }
     uniquefilename, err := utils.GenerateUniqueFilename(path)
     if err != nil {

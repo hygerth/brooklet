@@ -112,8 +112,8 @@ func convertAtomEntryToDBEntry(entry feedparser.Entry) structure.Entry {
     utils.Checkerr(err)
     newentry.Image.BaseFilename = filename
     switch isPortrait {
-    case true: newentry.Image.Rotation = "portrait"
-    default: newentry.Image.Rotation = "landscape"
+    case false: newentry.Image.Rotation = "landscape"
+    default: newentry.Image.Rotation = "portrait"
     }
     return newentry
 }
