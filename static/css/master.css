@@ -3,6 +3,20 @@ h1 {
   font-size: 32px;
 }
 
+h2 {
+  font-family: 'Helvetica Neue', 'Arial', 'Verdana';
+  font-size: 20px; 
+  padding-top: 0.7em;
+  padding-bottom: 0.3em;
+}
+
+p {
+  font-family: 'Helvetica Neue', 'Arial', 'Verdana';
+  font-size: 16px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
 .post-it { 
   background:#f3f3e3;
   margin-top: 15px;
@@ -200,7 +214,7 @@ ul {
 }
 
 /*Create a horizontal list with spacing*/
-li {
+ul li {
   display:inline-block;
   float: left;
   margin-right: 1px;
@@ -269,8 +283,8 @@ ul li a:hover + .hidden, .hidden:hover {
   color: #fff;
   background: #19c589;
   text-align: center;
-  padding: 10px 0;
   height: 50px;
+  line-height: 50px;
   display: none;
   text-transform: uppercase;
 }
@@ -303,3 +317,8 @@ input[type=checkbox]:checked ~ .menu{
   .mobile .show-menu {
     display:block;
   }
+
+form {
+  display: inline;
+}
+

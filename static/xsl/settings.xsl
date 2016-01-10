@@ -11,51 +11,52 @@
             </head>
 
             <body>
-                <div class="container"> 
+                <header> 
                     <h1>Brooklet</h1>
                     <xsl:apply-templates select="navigation" />
-                </div>
+                </header>
 
                 <div class="container"> 
-                    <ul>
-                        <xsl:for-each select="subscription">
-                            <li>
-                                <h2>
-                                    <xsl:value-of select="title" />
-                                </h2>
-                                <form action="/remove/feed" method="POST">
-                                    <input type="hidden" name="feed" value="{url}" />
-                                    <input type="submit" />
-                                </form>
-                            </li>
-                        </xsl:for-each>
+                    <ol>
                         <li>
+                            <h2>Add new feed</h2>
                             <form action="/add/feed" method="POST">
                                 <input type="text" name="feed" placeholder="url"/>
-                                <input type="submit" />
+                                <input type="submit" value="Add" />
                             </form>
                         </li>
-                    </ul>
-                    <hr/>
-                    <ul>
+                       <h2>Current Feeds </h2>
+                        <xsl:for-each select="subscription">
+                            <li>
+                                    <p><form action="/remove/feed" method="POST">
+                                        <input type="hidden" name="feed" value="{url}" />
+                                        <input type="submit" value="&#x2716;"/>
+                                    </form>
+                                    <xsl:value-of select="title" /></p>
+                            </li>
+                        </xsl:for-each>
+                    </ol>
+
+                    <h2>Filter Feed Keywords</h2>
+                    <ol>
                         <xsl:for-each select="filter">
                             <li>
-                                <h2>
-                                    <xsl:value-of select="." />
-                                </h2>
+                                <p>
                                 <form action="/remove/filter" method="POST">
                                     <input type="hidden" name="filter" value="{.}" />
-                                    <input type="submit" />
+                                    <input type="submit" value="&#x2716;"/>
                                 </form>
+                                <xsl:value-of select="." />
+                                </p>
                             </li>
                         </xsl:for-each>
                         <li>
                             <form action="/add/filter" method="POST">
                                 <input type="text" name="filter" placeholder="keyword"/>
-                                <input type="submit" />
+                                <input type="submit" value="Add" />
                             </form>
                         </li>
-                    </ul>
+                    </ol>
                 </div>
 
             </body>
