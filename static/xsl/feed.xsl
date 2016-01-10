@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns="http://www.w3.org/1999/xhtml">
+  xmlns="http://www.w3.org/1999/xhtml"
+  >
 
   <xsl:template match="page">
     <html>
@@ -57,7 +58,17 @@
   <xsl:template match="entry" mode="proc">
       <div class="col {image/@rotation}">
         <a href="{url}">
-        <img src="/images/{image/@src}-1024.png">Test</img>
+
+        <xsl:choose>
+          <xsl:when test="string-length(image/@src) > 0">
+            <img src="/images/{image/@src}-1024.png">Test</img>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:variable name="varcolor"><xsl:value-of select="string-length(title) mod 9 + 1" /></xsl:variable>
+            <div class="colordiv color{$varcolor}"></div>
+          </xsl:otherwise>
+        </xsl:choose>
+        
         <div class="textbox">
           <h1><xsl:apply-templates select="title" /></h1>
         </div>

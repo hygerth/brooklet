@@ -52,9 +52,19 @@
 
   <xsl:template match="entry">
     <div class="row">
-      <div class="col mobile">
+      <div class="col mobile portrait">
         <a href="{url}">
-        <img src="/images/{image/@src}-512.png">Test</img>
+        
+        <xsl:choose>
+          <xsl:when test="string-length(image/@src) > 0">
+            <img src="/images/{image/@src}-512.png">Test</img>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:variable name="varcolor"><xsl:value-of select="string-length(title) mod 9 + 1" /></xsl:variable>
+            <div class="colordiv color{$varcolor}"></div>
+          </xsl:otherwise>
+        </xsl:choose>
+
         <div class="textbox">
           <h1><xsl:apply-templates select="title" /></h1>
         </div>
