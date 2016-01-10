@@ -10,6 +10,7 @@ import (
     "fmt"
     "net/http"
     "strings"
+    "time"
 )
 
 const xslLocation = "/static/xsl/"
@@ -86,9 +87,12 @@ func addFeedHandler(w http.ResponseWriter, r *http.Request) {
     err := r.ParseForm()
     utils.Checkerr(err)
     feed := r.Form["feed"][0]
-    newfeed, _ := db.AddFeed(feed)
-    skywalker.UpdateFeed(newfeed)
-    http.Redirect(w, r, "/feed/" + newfeed.Name, http.StatusFound)
+    go func(feed string) {
+        newfeed, _ := db.AddFeed(feed)
+        skywalker.UpdateFeed(newfeed)
+    }(feed)
+    time.Sleep(2 * time.Second)
+    http.Redirect(w, r, "/settings", http.StatusFound)
 }
 
 func removeFeedHandler(w http.ResponseWriter, r *http.Request) {
@@ -97,7 +101,7 @@ func removeFeedHandler(w http.ResponseWriter, r *http.Request) {
     feed := r.Form["feed"][0]
     err = db.RemoveFeed(feed)
     utils.Checkerr(err)
-    http.Redirect(w, r, "/", http.StatusFound)
+    http.Redirect(w, r, "/settings", http.StatusFound)
 }
 
 func feedHandler(w http.ResponseWriter, r *http.Request) {
