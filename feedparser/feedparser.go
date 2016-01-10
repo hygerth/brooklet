@@ -1,6 +1,7 @@
 package feedparser
 
 import (
+    "bytes"
     "encoding/xml"
     "github.com/hygerth/brooklet/utils"
     "time"
@@ -44,13 +45,17 @@ type GUID struct {
 }
 
 type RSSFeed struct {
-    XMLName       xml.Name `xml:"rss"`
-    Version       string   `xml:"version,attr"`
-    Title         string   `xml:"channel>title"`
-    Link          string   `xml:"channel>link"`
-    Description   string   `xml:"channel>description"`
-    LastBuildDate string   `xml:"channel>lastBuildDate"`
-    Items         []Item   `xml:"channel>item"`
+    XMLName       xml.Name  `xml:"rss"`
+    Version       string    `xml:"version,attr"`
+    Channel       RSSChannel `xml:"channel"`
+}
+
+type RSSChannel struct {
+    Title         string   `xml:"title"`
+    Link          string   `xml:"RssDefault link"`
+    Description   string   `xml:"description"`
+    LastBuildDate string   `xml:"lastBuildDate"`
+    Items         []Item   `xml:"item"`
 }
 
 type Item struct {
@@ -87,20 +92,22 @@ func (atomfeed *AtomFeed) ParseFeed(feed []byte) error {
 }
 
 func (rssfeed *RSSFeed) ParseFeed(feed []byte) error {
-    err := xml.Unmarshal(feed, &rssfeed)
+    d := xml.NewDecoder(bytes.NewReader(feed))
+    d.DefaultSpace = "RssDefault"
+    err := d.Decode(&rssfeed)
     return err
 }
 
 func (rssfeed *RSSFeed) ConvertToAtomFeed() (AtomFeed, error) {
     var atomfeed AtomFeed
-    t, _ := utils.ParseTimeString(rssfeed.LastBuildDate)
-    atomfeed.Title = rssfeed.Title
-    link := Link{Href: rssfeed.Link, Rel: "alternate"}
+    t, _ := utils.ParseTimeString(rssfeed.Channel.LastBuildDate)
+    atomfeed.Title = rssfeed.Channel.Title
+    link := Link{Href: rssfeed.Channel.Link, Rel: "alternate"}
     atomfeed.Link = append(atomfeed.Link, link)
-    atomfeed.Subtitle = rssfeed.Description
+    atomfeed.Subtitle = rssfeed.Channel.Description
     atomfeed.Updated = t
     var entries []Entry
-    for _, item := range rssfeed.Items {
+    for _, item := range rssfeed.Channel.Items {
         var entry Entry
         it, _ := utils.ParseTimeString(item.PubDate)
         entry.Title = item.Title
