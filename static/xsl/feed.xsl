@@ -12,10 +12,10 @@
       </head>
 
       <body>
-        <div class="container"> 
+        <header> 
           <h1>Brooklet</h1>
           <xsl:apply-templates select="navigation" />
-        </div>
+        </header>
 
         <div class="container"> 
           <xsl:apply-templates select="content" />
