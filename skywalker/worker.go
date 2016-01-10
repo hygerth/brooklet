@@ -106,6 +106,10 @@ func convertAtomEntryToDBEntry(entry feedparser.Entry) structure.Entry {
     }
     newentry.Author = entry.Author.Name
     meta, err := siteparser.GetMetaForSite(newentry.PermaLink)
+    if err != nil {
+        newentry.PermaLink = entry.Link.Href
+        meta, err = siteparser.GetMetaForSite(entry.Link.Href)
+    }
     utils.Checkerr(err)
     newentry.Twitter = meta.TwitterCreator
     filename, isPortrait, err := SyncImage(meta.Image)
