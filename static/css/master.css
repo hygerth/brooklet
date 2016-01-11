@@ -47,7 +47,7 @@ float: left;
 }
 
 .col a:hover { 
-    color:blue; 
+    color:rgba(0,0,0,0.6); 
 }
 
 .row {
@@ -72,10 +72,7 @@ float: left;
 
 .col h1 {
     font-size: 28px;
-}
-
-.col.portrait h1 {
-    font-size: 28px;
+    padding: 0.2em;
 }
 
 .col img {
@@ -145,8 +142,8 @@ float: left;
     /*height: 5em;*/
     bottom: 0px;
     background-color: #ffffff;
-    opacity: 0.8;
-    filter: alpha(opacity=60); /* For IE8 and earlier */
+    /*opacity: 0.8;*/
+    /*filter: alpha(opacity=60); /* For IE8 and earlier */*/
     overflow: hidden;
 }
 
