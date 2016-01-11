@@ -11,16 +11,16 @@
             </head>
 
             <body>
-                <div class="container"> 
-                    <h1>Brooklet</h1>
-                    <xsl:apply-templates select="navigation" />
-                </div>
+                <header> 
+                  <xsl:apply-templates select="navigation" />
+                </header>
 
                 <div class="container"> 
+                    <h1>Subscriptions</h1>
                     <ul>
                         <xsl:for-each select="subscription">
                             <li>
-                                <a href="{url}">
+                                <a href="/feed/{id}">
                                     <xsl:value-of select="title" />
                                 </a>
                             </li>
@@ -34,26 +34,27 @@
     </xsl:template>
 
     <xsl:template match="navigation">
-        <label for="show-menu" class="show-menu">Show Menu</label>
-        <input type="checkbox" id="show-menu" role="button"/>
-        <ul class="menu">
-            <xsl:for-each select="navigationitem">
-                <li>
-                    <a href="{@url}">
-                        <xsl:value-of select="@title" />
-                    </a>
-                    <ul class="hidden">
-                        <xsl:for-each select="sublist/item">
-                            <li>
-                                <a href="{url}">
-                                    <xsl:apply-templates select="title" />
-                                </a>
-                            </li>
-                        </xsl:for-each>
-                    </ul>
-                </li>
-            </xsl:for-each>
-        </ul>
+        <nav>
+            <ul>
+                <xsl:for-each select="navigationitem">
+                    <li>
+                        <a href="{@url}">
+                            <xsl:value-of select="@title" />
+                        </a>
+                        <ul>
+                            <xsl:for-each select="sublist/item">
+                                <li>
+                                    <a href="{url}">
+                                        <xsl:apply-templates select="title" />
+                                    </a>
+                                </li>
+                            </xsl:for-each>
+                        </ul>
+                    </li>
+                </xsl:for-each>
+            </ul>
+            <h1>B</h1>
+        </nav>
     </xsl:template>
 
     <xsl:template match="title">

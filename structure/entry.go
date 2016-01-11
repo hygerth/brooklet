@@ -6,17 +6,17 @@ import (
 )
 
 type Entry struct {
-    Title string `bson:"title" xml:"title"`
-    Summary string `bson:"summary" xml:"summary"`
+    Title string `bson:"title" xml:"title,omitempty"`
+    Summary string `bson:"summary" xml:"summary,omitempty"`
     Content string `bson:"content" xml:"-"`
     ID string `bson:"id" xml:"-"`
-    Updated time.Time `bson:"updated" xml:"published"`
-    PermaLink string `bson:"permalink" xml:"url"`
-    Author string `bson:"author" xml:"author"`
-    Twitter string `bson:"twitter" xml:"twitter"`
-    HasImage bool `bson:"hasimage" xml:"hasimage"`
-    ImageRotation string `bson:"imagerotation" xml:"imagerotation"`
-    ArticleID string `bson:"articleid" xml:"id"`
+    Updated time.Time `bson:"updated" xml:"published,omitempty"`
+    PermaLink string `bson:"permalink" xml:"url,omitempty"`
+    Author string `bson:"author" xml:"author,omitempty"`
+    Twitter string `bson:"twitter" xml:"twitter,omitempty"`
+    HasImage bool `bson:"hasimage" xml:"hasimage,omitempty"`
+    ImageRotation string `bson:"imagerotation" xml:"imagerotation,omitempty"`
+    ArticleID string `bson:"articleid" xml:"id,omitempty"`
 }
 
 type Entries []Entry

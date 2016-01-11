@@ -13,11 +13,20 @@
 
             <body>
                 <header> 
-                    <xsl:apply-templates select="navigation" />
+                  <xsl:apply-templates select="navigation" />
                 </header>
 
                 <div class="container"> 
-                    <xsl:apply-templates select="content" />
+                    <h1>Subscriptions</h1>
+                    <ul>
+                        <xsl:for-each select="subscription">
+                            <li>
+                                <a href="/feed/{id}">
+                                    <xsl:value-of select="title" />
+                                </a>
+                            </li>
+                        </xsl:for-each>
+                    </ul>
                 </div>
 
             </body>
@@ -53,30 +62,32 @@
         </div>
     </xsl:template>
 
-    <xsl:template match="content">
-        <xsl:apply-templates select="entry" />
+    <xsl:template match="title">
+        <xsl:apply-templates />
     </xsl:template>
 
-    <xsl:template match="entry">
-        <div class="row">
-            <div class="col mobile portrait">
-                <a href="/article/{id}">
-        
-                    <xsl:choose>
-                        <xsl:when test="not(not(hasimage='true'))">
-                            <img src="/images/{id}-128.png"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:variable name="varcolor"><xsl:value-of select="string-length(title) mod 9 + 1" /></xsl:variable>
-                            <div class="colordiv color{$varcolor}"></div>
-                        </xsl:otherwise>
-                    </xsl:choose>
-
-                    <div class="textbox">
-                        <h1><xsl:value-of select="title" /></h1>
-                    </div>
-                </a>
-            </div>
-        </div>
+    <xsl:template match="url">
+        <xsl:apply-templates />
     </xsl:template>
+
+    <xsl:template match="published">
+        <xsl:apply-templates />
+    </xsl:template>
+
+    <xsl:template match="summary">
+        <xsl:apply-templates />
+    </xsl:template>
+
+    <xsl:template match="author">
+        <xsl:apply-templates />
+    </xsl:template>
+
+    <xsl:template match="name">
+        <xsl:apply-templates />
+    </xsl:template>
+
+    <xsl:template match="url">
+        <xsl:apply-templates />
+    </xsl:template>
+
 </xsl:stylesheet>

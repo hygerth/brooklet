@@ -24,21 +24,22 @@ var viewheaders = map[string]string{
 
 type Page struct {
     XMLName xml.Name `xml:"page"`
-    Navigation Navigation `xml:"navigation"`
-    Content Content `xml:"content"`
-    Subscriptions []Subscription `xml:"subscription"`
-    Filter []string `xml:"filter"`
+    Navigation Navigation `xml:"navigation,omitempty"`
+    Content Content `xml:"content,omitempty"`
+    Subscriptions []Subscription `xml:"subscription,omitempty"`
+    Filter []string `xml:"filter,omitempty"`
 }
 
 type Content struct {
     Title string `xml:"title,attr"`
-    Entries []structure.Entry `xml:"entry"`
-    Article structure.Entry `xml:"article"`
+    Entries []structure.Entry `xml:"entry,omitempty"`
+    Article structure.Entry `xml:"article,omitempty"`
 }
 
 type Subscription struct {
-    Title string `xml:"title"`
-    URL string `xml:"url"`
+    Title string `xml:"title,omitempty"`
+    ID string `xml:"id,omitempty"`
+    URL string `xml:"url,omitempty"`
 }
 
 type Article struct {
@@ -71,7 +72,7 @@ func latestHandler(w http.ResponseWriter, r *http.Request) {
     entries := structure.ExtractEntriesFromFeeds(feeds...)
     filter, _ := db.GetFilter()
     entries = structure.FilterEntries(entries, filter)
-    content := Content{Title: "Latest", Entries: entries}
+    content := Content{Title: "Latest", Entries: entries[:20]}
     p.Content = content
     enc.Encode(p)
 }
@@ -106,7 +107,7 @@ func addFeedHandler(w http.ResponseWriter, r *http.Request) {
         newfeed, _ := db.AddFeed(feed)
         skywalker.UpdateFeed(newfeed)
     }(feed)
-    time.Sleep(2 * time.Second)
+    time.Sleep(4 * time.Second)
     http.Redirect(w, r, "/settings", http.StatusFound)
 }
 
@@ -163,7 +164,7 @@ func feedHandler(w http.ResponseWriter, r *http.Request) {
     entries := structure.ExtractEntriesFromFeeds(feed)
     filter, _ := db.GetFilter()
     entries = structure.FilterEntries(entries, filter)
-    content := Content{Title: feed.Title, Entries: entries}
+    content := Content{Title: feed.Title, Entries: entries[:20]}
     p.Content = content
     enc.Encode(p)
 }
@@ -172,7 +173,7 @@ func buildSubscriptions() []Subscription {
     var subscriptions []Subscription
     feeds, _ := db.GetAllFeeds()
     for _, feed := range feeds {
-        subscription := Subscription{Title: feed.Title, URL: feed.URL}
+        subscription := Subscription{Title: feed.Title, ID: feed.Name, URL: feed.URL}
         subscriptions = append(subscriptions, subscription)
     }
     return subscriptions

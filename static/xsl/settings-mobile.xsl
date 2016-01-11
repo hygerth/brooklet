@@ -8,6 +8,7 @@
             <head>
                 <title>Brooklet</title>
                 <link href="/static/css/screen.css" rel="stylesheet" type="text/css" />
+                <meta name="viewport" content="initial-scale=1.0"/>
             </head>
 
             <body>
@@ -64,27 +65,31 @@
     </xsl:template>
 
     <xsl:template match="navigation">
-        <nav>
-            <ul>
-                <xsl:for-each select="navigationitem">
-                    <li>
-                        <a href="{@url}">
-                            <xsl:value-of select="@title" />
-                        </a>
-                        <ul>
-                            <xsl:for-each select="sublist/item">
-                                <li>
-                                    <a href="{url}">
-                                        <xsl:apply-templates select="title" />
-                                    </a>
-                                </li>
-                            </xsl:for-each>
-                        </ul>
-                    </li>
-                </xsl:for-each>
-            </ul>
-            <h1>B</h1>
-        </nav>
+        <div class="mobile">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger"><span></span></label>
+            <nav>
+                <h1>B</h1>
+                <ul>
+                    <xsl:for-each select="navigationitem">
+                        <li>
+                            <a href="{@url}">
+                                <xsl:value-of select="@title" />
+                            </a>
+                            <ul>
+                                <xsl:for-each select="sublist/item">
+                                    <li>
+                                        <a href="{url}">
+                                            <xsl:value-of select="title" />
+                                        </a>
+                                    </li>
+                                </xsl:for-each>
+                            </ul>
+                        </li>
+                    </xsl:for-each>
+                </ul>
+            </nav>
+        </div>
     </xsl:template>
 
     <xsl:template match="title">

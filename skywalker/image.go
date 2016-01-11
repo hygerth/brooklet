@@ -24,7 +24,7 @@ func SyncImage(url string, uniquefilename string) (bool, bool, error) {
     if len(url) == 0 {
         return hasimage, true, nil
     }
-    sizes := []string{"512", "1024"}
+    sizes := []string{"128","512", "1024"}
     path, err := utils.GetPath()
     if err != nil {
         return hasimage, true, err

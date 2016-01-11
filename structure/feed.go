@@ -11,14 +11,14 @@ import (
 var regex = regexp.MustCompile(`\W`)
 
 type Feed struct {
-    Title string `bson:"title" xml:"title"`
-    Subtitle string `bson:"subtitle" xml:"subtitle"`
+    Title string `bson:"title" xml:"title,omitempty"`
+    Subtitle string `bson:"subtitle" xml:"subtitle,omitempty"`
     Updated time.Time `bson:"updated" xml:"-"`
     URL string `bson:"url" xml:"-"`
-    Icon string `bson:"icon" xml:"icon"`
-    Twitter string `bson:"twitter" xml:"twitter"`
-    Entries []Entry `bson:"entries" xml:"entry"`
-    Name string `bson:"name" xml:"name"`
+    Icon string `bson:"icon" xml:"icon,omitempty"`
+    Twitter string `bson:"twitter" xml:"twitter,omitempty"`
+    Entries []Entry `bson:"entries" xml:"entry,omitempty"`
+    Name string `bson:"name" xml:"name,omitempty"`
 
     ID bson.ObjectId `bson:"_id,omitempty" xml:"-"`
     ChangeFrequency float64 `bson:"changefrequency" xml:"-"`

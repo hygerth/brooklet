@@ -17,8 +17,11 @@ func FilterEntries(entries []Entry, filter []Filter) []Entry {
     var filteredentries []Entry
     for _, entry := range entries {
         clean := true
+        title := strings.ToLower(entry.Title)
+        summary := strings.ToLower(entry.Summary)
+        content := strings.ToLower(entry.Content)
         for _, f := range filter {
-            if strings.Contains(entry.Title, f.Filter) || strings.Contains(entry.Summary, f.Filter) || strings.Contains(entry.Content, f.Filter) {
+            if strings.Contains(title, f.Filter) || strings.Contains(summary, f.Filter) || strings.Contains(content, f.Filter) {
                 clean = false
                 break
             }
