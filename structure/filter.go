@@ -21,7 +21,8 @@ func FilterEntries(entries []Entry, filter []Filter) []Entry {
         summary := strings.ToLower(entry.Summary)
         content := strings.ToLower(entry.Content)
         for _, f := range filter {
-            if strings.Contains(title, f.Filter) || strings.Contains(summary, f.Filter) || strings.Contains(content, f.Filter) {
+            keyword := strings.ToLower(f.Filter)
+            if strings.Contains(title, keyword) || strings.Contains(summary, keyword) || strings.Contains(content, keyword) {
                 clean = false
                 break
             }
