@@ -8,9 +8,13 @@ import (
     "net/http"
 )
 
-func Start() {
+var cache Cache
+
+func Start(options map[string]string) {
     log.SetFlags(log.LstdFlags | log.Lshortfile)
     skywalker.Start()
+    cache = Cache{}
+    cache.Init(options)
     path, _ := utils.GetPath()
     r := mux.NewRouter()
     r.HandleFunc("/", homeHandler).Methods("GET")

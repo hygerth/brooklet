@@ -68,11 +68,8 @@ func latestHandler(w http.ResponseWriter, r *http.Request) {
     var p Page
     nav := buildNavigation()
     p.Navigation = nav
-    feeds, _ := db.GetAllFeeds()
-    entries := structure.ExtractEntriesFromFeeds(feeds...)
-    filter, _ := db.GetFilter()
-    entries = structure.FilterEntries(entries, filter)
-    content := Content{Title: "Latest", Entries: entries[:20]}
+    c, _ := cache.Get("all")
+    content := Content{Title: "Latest", Entries: c.Entries}
     p.Content = content
     enc.Encode(p)
 }
@@ -106,6 +103,7 @@ func addFeedHandler(w http.ResponseWriter, r *http.Request) {
     go func(feed string) {
         newfeed, _ := db.AddFeed(feed)
         skywalker.UpdateFeed(newfeed)
+        cache.Empty()
     }(feed)
     time.Sleep(4 * time.Second)
     http.Redirect(w, r, "/settings", http.StatusFound)
@@ -117,6 +115,7 @@ func removeFeedHandler(w http.ResponseWriter, r *http.Request) {
     feed := r.Form["feed"][0]
     err = db.RemoveFeed(feed)
     utils.Checkerr(err)
+    cache.Empty()
     http.Redirect(w, r, "/settings", http.StatusFound)
 }
 
@@ -125,6 +124,7 @@ func addFilterHandler(w http.ResponseWriter, r *http.Request) {
     utils.Checkerr(err)
     filter := r.Form["filter"][0]
     db.AddFilter(filter)
+    cache.Empty()
     http.Redirect(w, r, "/settings", http.StatusFound)
 }
 
@@ -134,6 +134,7 @@ func removeFilterHandler(w http.ResponseWriter, r *http.Request) {
     filter := r.Form["filter"][0]
     err = db.RemoveFilter(filter)
     utils.Checkerr(err)
+    cache.Empty()
     http.Redirect(w, r, "/settings", http.StatusFound)
 }
 
@@ -160,11 +161,8 @@ func feedHandler(w http.ResponseWriter, r *http.Request) {
     var p Page
     nav := buildNavigation()
     p.Navigation = nav
-    feed, _ := db.GetFeedByName(name)
-    entries := structure.ExtractEntriesFromFeeds(feed)
-    filter, _ := db.GetFilter()
-    entries = structure.FilterEntries(entries, filter)
-    content := Content{Title: feed.Title, Entries: entries[:20]}
+    c, _ := cache.Get(name)
+    content := Content{Title: c.Title, Entries: c.Entries}
     p.Content = content
     enc.Encode(p)
 }

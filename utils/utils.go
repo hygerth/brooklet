@@ -10,6 +10,7 @@ import (
     "net/url"
     "os"
     "regexp"
+    "strconv"
     "strings"
     "time"
 )
@@ -56,6 +57,20 @@ func GetPage(url string) ([]byte, error) {
         return []byte{}, err
     }
     return b, nil
+}
+
+func StringToInt64(s string) int64 {
+    i, err := strconv.ParseInt(s, 10, 64)
+    Checkerr(err)
+    return i
+}
+
+func StringToTimeDurationUnit(s string) time.Duration {
+    switch s {
+    case "days": return 24 * time.Hour
+    case "hours": return time.Hour
+    default: return time.Minute
+    }
 }
 
 func ParseTimeString(str string) (time.Time, error) {
