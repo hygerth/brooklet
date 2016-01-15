@@ -155,7 +155,7 @@ func GetAllFeeds() ([]structure.Feed, error) {
         return feeds, err
     }
     c := session.DB(db).C("feeds")
-    err = c.Find(bson.M{}).All(&feeds)
+    err = c.Find(bson.M{}).Sort("title").All(&feeds)
     feeds = sortEntriesInFeeds(feeds)
     return feeds, err
 }
@@ -168,7 +168,7 @@ func GetFeedsInURLList(urls []string) ([]structure.Feed, error) {
         return feeds, err
     }
     c := session.DB(db).C("feeds")
-    err = c.Find(bson.M{"url": bson.M{"$in": urls}}).All(&feeds)
+    err = c.Find(bson.M{"url": bson.M{"$in": urls}}).Sort("title").All(&feeds)
     feeds = sortEntriesInFeeds(feeds)
     return feeds, err
 }

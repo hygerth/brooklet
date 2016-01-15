@@ -93,7 +93,11 @@ func convertAtomEntryToDBEntry(entry feedparser.Entry) structure.Entry {
     if len(entry.Summary) >= len(entry.Content) {
         article, err := siteparser.GetArticleForSite(entry.Link.Href)
         utils.Checkerr(err)
-        newentry.Content = article
+        if len(article) > 0 && len(article) > len(entry.Summary) {
+            newentry.Content = article
+        } else {
+            newentry.Content = entry.Summary
+        }
     } else {
         newentry.Content = entry.Content
     }

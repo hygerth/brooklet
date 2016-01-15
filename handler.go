@@ -17,9 +17,9 @@ import (
 const xslLocation = "/static/xsl/"
 
 var viewheaders = map[string]string{
-    "feed": "<?xml-stylesheet type=\"text/xsl\" href=\"_xslfile_\"?><!DOCTYPE page [<!ENTITY % page SYSTEM \"/static/dtd/page.dtd\">%page;<!ENTITY % content SYSTEM \"/static/dtd/content.dtd\">%content;<!ENTITY % navigation SYSTEM \"/static/dtd/navigation.dtd\">%navigation;]>",
-    "home": "<?xml-stylesheet type=\"text/xsl\" href=\"_xslfile_\"?>",
-    "settings": "<?xml-stylesheet type=\"text/xsl\" href=\"_xslfile_\"?>",
+    "feed": "<?xml-stylesheet type=\"text/xsl\" href=\"_xslfile_\"?><!DOCTYPE page SYSTEM \"/static/dtd/page.dtd\">",
+    "home": "<?xml-stylesheet type=\"text/xsl\" href=\"_xslfile_\"?><!DOCTYPE page SYSTEM \"/static/dtd/page.dtd\">",
+    "settings": "<?xml-stylesheet type=\"text/xsl\" href=\"_xslfile_\"?><!DOCTYPE page SYSTEM \"/static/dtd/page.dtd\">",
 }
 
 type Page struct {
@@ -33,7 +33,6 @@ type Page struct {
 type Content struct {
     Title string `xml:"title,attr"`
     Entries []structure.Entry `xml:"entry,omitempty"`
-    Article structure.Entry `xml:"article,omitempty"`
 }
 
 type Subscription struct {

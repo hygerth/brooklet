@@ -32,7 +32,7 @@ var negativeregex = regexp.MustCompile(`ad|banner|brand|combx|comment|comments|c
 
 var containerregrex = regexp.MustCompile(`article|aside|div|section`)
 
-var nonwordregex = regexp.MustCompile(`[^A-Za-z0-9]`)
+var nonwordregex = regexp.MustCompile(`[^A-Za-z0-9]+`)
 
 func GetMetaForSite(url string) (Meta, error) {
     page, err := utils.GetPage(url)
@@ -114,13 +114,31 @@ func getArticle(data []byte) string {
     doc, _ = retriveMainRole(doc)
     doc = removeNonMainContent(doc)
     doc = clearClassesAndIDs(doc)
+    c := calcContent(doc)
     var buff bytes.Buffer
     html.Render(&buff, doc)
     articlestr := buff.String()
     articlestr = utils.RemoveNewLines(articlestr)
     articlestr = utils.ReplaceTabsWithASpace(articlestr)
     articlestr = utils.TrimSpaces(articlestr)
+    if float64(c)/float64(len(articlestr)) < 0.2 {
+        // At least 20% of the article should be text
+        return ""
+    }
     return articlestr
+}
+
+func calcContent(n *html.Node) int {
+    counter := 0
+    for c := n.FirstChild; c != nil; c = c.NextSibling {
+        if c.Type == html.TextNode {
+            a := nonwordregex.ReplaceAllString(c.Data, "")
+            counter += len(a)
+        } else {
+            counter += calcContent(c)
+        }
+    }
+    return counter
 }
 
 func removeNegativeCandidates(n *html.Node) *html.Node {
