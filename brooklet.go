@@ -30,6 +30,6 @@ func Start(options map[string]string) {
     r.HandleFunc("/api/feed/{name}", apiFeedHandler).Methods("GET")
     r.PathPrefix("/static").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(path + "/static/"))))
     r.PathPrefix("/images").Handler(http.StripPrefix("/images/", http.FileServer(http.Dir(path + "/images/"))))
-    log.Println("Port: 9876")
-    panic(http.ListenAndServe(":9876", r))
+    log.Println("Port: " + options["serverport"])
+    panic(http.ListenAndServe(":" + options["serverport"], r))
 }
