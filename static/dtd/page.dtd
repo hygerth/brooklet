@@ -1,1 +1,27 @@
-<!ELEMENT page (navigation, content)>
+<!ELEMENT page (navigation, content, subscription*, filter*)>
+
+<!ELEMENT navigation (navigationitem+)>
+<!ELEMENT navigationitem (sublist?)>
+<!ATTLIST navigationitem title CDATA #REQUIRED>
+<!ATTLIST navigationitem url CDATA #IMPLIED>
+<!ELEMENT sublist (item+)>
+<!ELEMENT item (title, url, icon?)>
+<!ELEMENT icon (#PCDATA)>
+
+<!ELEMENT content (entry*)>
+<!ATTLIST content title CDATA #REQUIRED>
+<!ELEMENT entry (title, url, published, summary, author, twitter, hasimage, imagerotation, id)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT url (#PCDATA)>
+<!ELEMENT published (#PCDATA)>
+<!ELEMENT summary (#PCDATA)>
+<!ELEMENT author (name, url)>
+<!ELEMENT twitter (#PCDATA)>
+<!ELEMENT hasimage (#PCDATA)>
+<!ELEMENT imagerotation (#PCDATA)>
+<!ELEMENT id (#PCDATA)>
+
+<!ELEMENT subscription (title, id, url)>
+
+<!ELEMENT filter (#PCDATA)>

@@ -1,9 +1,0 @@
-<!ELEMENT navigation (navigationitem+)>
-<!ELEMENT navigationitem (sublist?)>
-<!ATTLIST navigationitem title CDATA #REQUIRED>
-<!ATTLIST navigationitem url CDATA #IMPLIED>
-<!ELEMENT sublist (item+)>
-<!ELEMENT item (title, url, icon?)>
-<!ELEMENT title (#PCDATA)>
-<!ELEMENT url (#PCDATA)>
-<!ELEMENT icon (#PCDATA)>
